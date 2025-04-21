@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Debounce Input Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 250px;
+    }
+    .output {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Debounce Search Input</h2>
+  <input type="text" id="searchInput" placeholder="Search...">
+  <div class="output" id="output"></div>
+
+  <script>
+    function debounce(func, delay) {
+      let timeout;
+      return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), delay);
+      };
+    }
+
+    const handleSearch = debounce((query) => {
+      document.getElementById("output").textContent = `Searching for: ${query}`;
+      console.log("Searching for:", query); 
+    }, 500); 
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      handleSearch(e.target.value);
+    });
+  </script>
+
+</body>
+</html>

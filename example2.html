@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throttling Input Example</title>
+</head>
+<body>
+    <input type="text" id="throttle-input" placeholder="Type something...">
+    <p>Output: <span id="throttle-output"></span></p>
+
+    <script>
+        function throttle(func, limit) {
+            let lastFunc;
+            let lastTime;
+            return function() {
+                const now = new Date();
+                if (lastTime && now - lastTime < limit) {
+                    clearTimeout(lastFunc);
+                    lastFunc = setTimeout(function() {
+                        lastTime = now;
+                        func();
+                    }, limit - (now - lastTime));
+                } else {
+                    lastTime = now;
+                    func();
+                }
+            }
+        }
+
+        const handleThrottleInput = throttle(function() {
+            document.getElementById('throttle-output').textContent = document.getElementById('throttle-input').value;
+        }, 1000); 
+        document.getElementById('throttle-input').addEventListener('input', handleThrottleInput);
+    </script>
+</body>
+</html>

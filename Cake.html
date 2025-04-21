@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Debounce Scroll Example</title>
+  <style>
+    body {
+      height: 2000px;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .scroll-box {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #222;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scroll-box" id="position">Scroll Y: 0</div>
+
+  <script>
+    function debounce(func, delay) {
+      let timeout;
+      return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args), delay);
+      };
+    }
+
+    const scrollHandler = debounce(() => {
+      const scrollY = window.scrollY;
+      document.getElementById("position").textContent = `Scroll Y: ${Math.floor(scrollY)} px`;
+      console.log("Scroll updated at", scrollY);
+    }, 500); // wait 500ms after scroll stops
+
+    window.addEventListener("scroll", scrollHandler);
+  </script>
+
+</body>
+</html>
